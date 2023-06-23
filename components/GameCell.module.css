@@ -1,0 +1,20 @@
+.gamecell {
+  display: flex;
+  width: 50px;
+  height: 50px;
+  background-color: blue;
+  border: 1px solid black;
+  justify-content: center;
+  align-items: center;
+}
+
+.chess {
+  height: 90%;
+  width: 90%;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  text-align: center;
+  align-content: center;
+  color: red;
+}
