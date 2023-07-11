@@ -1,7 +1,7 @@
 import { GameCell } from './GameCell';
 import styles from './GameBoard.module.css';
 import { useCallback, useEffect, useState } from 'react';
-import { socket } from '../src/socket';
+import { socket } from '../../src/socket';
 
 export const GameBoard = () => {
   const [board, setBoard] = useState<Array<Array<string | null>>>(
