@@ -12,7 +12,7 @@ export default function Lobby() {
     if (socket) {
       setPlayerName(socket.id);
     }
-  }, []);
+  }, [socket]);
 
   return (
     <Container>

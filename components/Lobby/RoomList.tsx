@@ -21,7 +21,7 @@ export default function RoomList() {
 
   useEffect(()=>{
     listRooms();
-  }, []) 
+  }, [listRooms]) 
   
   const refreshHandler = () => {
     listRooms();
