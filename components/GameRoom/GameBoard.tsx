@@ -1,9 +1,10 @@
 import { GameCell } from './GameCell';
 import styles from './GameBoard.module.css';
-import { useCallback, useEffect, useState } from 'react';
-import { socket } from '../../src/socket';
+import { useCallback, useEffect, useState, useContext } from 'react';
+import { SocketContext } from '../SocketContext';
 
 export const GameBoard = () => {
+  const socket = useContext(SocketContext);
   const [board, setBoard] = useState<Array<Array<string | null>>>(
     Array.from({ length: 7 }, (v) => Array.from({ length: 6 }, (v) => null))
   );
@@ -27,43 +28,43 @@ export const GameBoard = () => {
       console.log(newBoard);
       return newBoard;
     });
-  }
+  };
 
-  const updateListener = useCallback ((args: any) => {
-    updateBoard(args.step, args.player === player ? 'O' : 'X')
-    if (args.isFinished) {
-      setGameoverMessage( args.player === player ? 'You Win' : 'You Lose')
-    }
-  }, [player]);
+  const updateListener = useCallback(
+    (args: any) => {
+      updateBoard(args.step, args.player === player ? 'O' : 'X');
+      if (args.isFinished) {
+        setGameoverMessage(args.player === player ? 'You Win' : 'You Lose');
+      }
+    },
+    [player]
+  );
 
   useEffect(() => {
-    socket.on('connect', () => {
-      console.log('connected to server');
-      setPlayer(socket?.id);
-    });
+    if (socket) {
+      setPlayer(socket.id)
+      // socket.on('connect', () => {
+      //   console.log('connected to server');
+      //   setPlayer(socket?.id);
+      // });
 
-    socket.on('message', (args) => {
-      console.log(args);
-    });
-
-    
-
-    socket.connect();
-
-    return () => {
-      console.log('removing')
-      socket.disconnect()
+      socket.on('message', (args) => {
+        console.log(args);
+      });
     }
-  }, []);
+    return () => {
+      console.log('removing');
+    };
+  }, [socket]);
 
-  useEffect(()=> {
+  useEffect(() => {
     if (player) {
-      socket.on('update_move', updateListener);
+      socket?.on('update_move', updateListener);
     }
     return () => {
-      socket.off('update_move', updateListener)
-    }
-  }, [player, updateListener])
+      socket?.off('update_move', updateListener);
+    };
+  }, [player, updateListener]);
 
   const columnClickHandler = (idx: number) => {
     if (socket) {
@@ -89,9 +90,7 @@ export const GameBoard = () => {
           );
         })}
       </div>
-      {
-        gameoverMessage ? <p>{gameoverMessage}</p> : undefined
-      }
+      {gameoverMessage ? <p>{gameoverMessage}</p> : undefined}
     </>
   );
 };
