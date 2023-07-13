@@ -1,19 +1,54 @@
-import { Button, Container, Text } from '@mantine/core';
-import RoomList from './RoomList';
+import { Button, Group, Modal, TextInput } from '@mantine/core';
 import { SocketContext } from '../SocketContext';
-import { useContext  } from 'react';
+import { useContext } from 'react';
 import { SocketEvents } from '@/socket/SocketEvents';
+import { useDisclosure } from '@mantine/hooks';
+import { useForm, hasLength } from '@mantine/form';
+import { useRouter } from 'next/router';
 
 export default function GameCreator() {
   const socket = useContext(SocketContext);
-  
-  const openRoomHandler = () => {
+  const router = useRouter()
+  const [isModalOpened, modalHandler] = useDisclosure(false);
+  const form = useForm({
+    initialValues: {
+      roomName: '',
+    },
+    validate: {
+      roomName: hasLength({ min: 1 }, 'Room Name is required'),
+    },
+  });
+
+  const createRoom = ({roomName}: any) => {
     socket?.emit(SocketEvents.OpenRoom, {
-      roomName: `Room-by-${new Date().toUTCString()}`,
+      roomName,
+    }, (response: any) => {
+      if (response && response.roomName === roomName){
+        router.push('/gameRoom')
+      }
     });
   };
 
   return (
-      <Button onClick={openRoomHandler}>Create New Room</Button>
+    <>
+      <Button onClick={modalHandler.open}>Create New Room</Button>
+      <Modal
+        opened={isModalOpened}
+        onClose={modalHandler.close}
+        title="Create New Room"
+      >
+        <form onSubmit={form.onSubmit(createRoom)}>
+          <TextInput
+            withAsterisk
+            label="Room Name"
+            placeholder="New Room Name"
+            {...form.getInputProps('roomName')}
+          />
+          <Group position="right" mt="md">
+            <Button type="submit">Submit</Button>
+          </Group>
+        </form>
+      </Modal>
+    </>
   );
 }
