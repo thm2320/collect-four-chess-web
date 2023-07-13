@@ -1,11 +1,5 @@
-import { GameBoard } from '../components/GameBoard';
+import Lobby from '../components/Lobby';
 
-export default function Home() {
-  return (
-    <main>
-      <div>
-        <GameBoard />
-      </div>
-    </main>
-  );
+export default function App() {
+  return <Lobby />;
 }
