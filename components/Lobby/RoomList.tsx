@@ -30,7 +30,7 @@ export default function RoomList() {
       roomName,
     }, (response: any) => {
       if (response && response.roomName === roomName){
-        router.push('/gameRoom')
+        router.push(`/gameRooms/${roomName}`)
       }
     });
   };

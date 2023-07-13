@@ -24,7 +24,7 @@ export default function GameCreator() {
       roomName,
     }, (response: any) => {
       if (response && response.roomName === roomName){
-        router.push('/gameRoom')
+        router.push(`/gameRooms/${roomName}`)
       }
     });
   };
