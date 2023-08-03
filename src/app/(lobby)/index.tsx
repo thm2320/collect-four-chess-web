@@ -1,6 +1,8 @@
+'use client';
+
 import { Container, Text } from '@mantine/core';
 import RoomList from './RoomList';
-import { SocketContext } from '../SocketContext';
+import { SocketContext } from '@/app/SocketProvider';
 import { useContext, useEffect, useState } from 'react';
 import GameCreator from './RoomCreator';
 

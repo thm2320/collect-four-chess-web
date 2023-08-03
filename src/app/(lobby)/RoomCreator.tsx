@@ -1,14 +1,14 @@
 import { Button, Group, Modal, TextInput } from '@mantine/core';
-import { SocketContext } from '../SocketContext';
+import { SocketContext } from '@/app/SocketProvider';
 import { useContext } from 'react';
 import { SocketEvents } from '@/socket/SocketEvents';
 import { useDisclosure } from '@mantine/hooks';
 import { useForm, hasLength } from '@mantine/form';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 export default function GameCreator() {
   const socket = useContext(SocketContext);
-  const router = useRouter()
+  const router = useRouter();
   const [isModalOpened, modalHandler] = useDisclosure(false);
   const form = useForm({
     initialValues: {
@@ -19,14 +19,20 @@ export default function GameCreator() {
     },
   });
 
-  const createRoom = ({roomName}: any) => {
-    socket?.emit(SocketEvents.OpenRoom, {
-      roomName,
-    }, (response: any) => {
-      if (response && response.roomName === roomName){
-        router.push(`/gameRooms/${roomName}`)
+  const createRoom = ({ roomName }: any) => {
+    console.log(socket);
+    socket?.emit(
+      SocketEvents.OpenRoom,
+      {
+        roomName,
+      },
+      (response: any) => {
+        console.log('response', response);
+        if (response && response.roomName === roomName) {
+          router.push(`/gameRooms/${roomName}`);
+        }
       }
-    });
+    );
   };
 
   return (

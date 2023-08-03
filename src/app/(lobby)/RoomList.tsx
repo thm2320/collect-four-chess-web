@@ -1,9 +1,9 @@
 import { Button, Flex, Title } from '@mantine/core';
 import { useCallback, useContext, useEffect, useState } from 'react';
 
-import { SocketContext } from '../SocketContext';
+import { SocketContext } from '@/app/SocketProvider';
 import { SocketEvents } from '@/socket/SocketEvents';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 export default function RoomList() {
   const [rooms, setRooms] = useState<string[]>([]);
@@ -26,13 +26,17 @@ export default function RoomList() {
   }, [socket]);
 
   const roomButtonHandler = (roomName: string) => {
-    socket?.emit(SocketEvents.JoinRoom, {
-      roomName,
-    }, (response: any) => {
-      if (response && response.roomName === roomName){
-        router.push(`/gameRooms/${roomName}`)
+    socket?.emit(
+      SocketEvents.JoinRoom,
+      {
+        roomName,
+      },
+      (response: any) => {
+        if (response && response.roomName === roomName) {
+          router.push(`/gameRooms/${roomName}`);
+        }
       }
-    });
+    );
   };
 
   useEffect(() => {

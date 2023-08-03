@@ -1,7 +1,7 @@
 import { GameCell } from './GameCell';
 import styles from './GameBoard.module.css';
 import { useCallback, useEffect, useState, useContext } from 'react';
-import { SocketContext } from '../SocketContext';
+import { SocketContext } from '@/app/SocketProvider';
 
 export const GameBoard = () => {
   const socket = useContext(SocketContext);
@@ -42,7 +42,7 @@ export const GameBoard = () => {
 
   useEffect(() => {
     if (socket) {
-      setPlayer(socket.id)
+      setPlayer(socket.id);
       // socket.on('connect', () => {
       //   console.log('connected to server');
       //   setPlayer(socket?.id);
