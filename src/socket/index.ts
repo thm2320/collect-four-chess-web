@@ -2,7 +2,9 @@ import { io } from 'socket.io-client';
 
 // "undefined" means the URL will be computed from the `window.location` object
 // const URL = process.env.NODE_ENV === 'production' ? undefined : 'http://localhost:4000';
-
-export const socket = io('http://localhost:3000', {
-  autoConnect: false
-});
+export const socket = io(
+  process.env.NEXT_PUBLIC_TURN_BASED_ENGINE_URL as string,
+  {
+    autoConnect: false,
+  }
+);
