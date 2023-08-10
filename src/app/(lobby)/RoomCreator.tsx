@@ -1,7 +1,7 @@
 import { Button, Group, Modal, TextInput } from '@mantine/core';
 import { SocketContext } from '@/app/SocketProvider';
 import { useContext } from 'react';
-import { SocketEvents } from '@/socket/SocketEvents';
+import { CustomRoomEvent } from '@/socket/SocketEvent';
 import { useDisclosure } from '@mantine/hooks';
 import { useForm, hasLength } from '@mantine/form';
 import { useRouter } from 'next/navigation';
@@ -21,7 +21,7 @@ export default function GameCreator() {
 
   const createRoom = ({ roomName }: any) => {
     socket?.emit(
-      SocketEvents.OpenRoom,
+      CustomRoomEvent.OpenRoom,
       {
         roomName,
       },

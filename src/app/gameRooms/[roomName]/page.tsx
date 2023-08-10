@@ -4,7 +4,7 @@ import { Button } from '@mantine/core';
 import { GameBoard } from './GameBoard';
 import { SocketContext } from '@/app/SocketProvider';
 import { useContext } from 'react';
-import { SocketEvents } from '@/socket/SocketEvents';
+import { CustomRoomEvent } from '@/socket/SocketEvent';
 import { useParams, useRouter } from 'next/navigation';
 
 export default function GameRoom() {
@@ -14,7 +14,7 @@ export default function GameRoom() {
 
   const leaveRoomHandler = () => {
     if (socket && socket.connected) {
-      socket.emit(SocketEvents.LeaveRoom, { roomName }, () => {
+      socket.emit(CustomRoomEvent.LeaveRoom, { roomName }, () => {
         router.back();
       });
     }

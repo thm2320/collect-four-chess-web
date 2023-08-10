@@ -19,7 +19,13 @@ export default function AuthPage() {
 
   return (
     <>
-      <Modal opened={isModalOpened} onClose={modalHandler.close} title="Login">
+      <Modal
+        closeOnClickOutside={false}
+        withCloseButton={false}
+        opened={isModalOpened}
+        onClose={modalHandler.close}
+        title="Login"
+      >
         <LoginForm />
       </Modal>
     </>

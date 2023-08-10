@@ -4,9 +4,12 @@ import { Group, Button, TextInput } from '@mantine/core';
 import { hasLength, useForm } from '@mantine/form';
 import { useContext } from 'react';
 import { UserContext } from '../../UserProvider';
+import { SocketContext } from '@/app/SocketProvider';
+import { CustomPlayerEvent } from '@/socket/SocketEvent';
 
 export default function LoginForm() {
   const { setUser } = useContext(UserContext);
+  const socket = useContext(SocketContext);
 
   const form = useForm({
     initialValues: {
@@ -18,6 +21,9 @@ export default function LoginForm() {
   });
 
   const onFormSubmit = ({ username }: any) => {
+    socket.emit(CustomPlayerEvent.UpdatePlayer, {
+      username,
+    });
     setUser({ username });
   };
 
