@@ -20,14 +20,12 @@ export default function GameCreator() {
   });
 
   const createRoom = ({ roomName }: any) => {
-    console.log(socket);
     socket?.emit(
       SocketEvents.OpenRoom,
       {
         roomName,
       },
       (response: any) => {
-        console.log('response', response);
         if (response && response.roomName === roomName) {
           router.push(`/gameRooms/${roomName}`);
         }
