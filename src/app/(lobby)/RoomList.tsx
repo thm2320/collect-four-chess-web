@@ -2,7 +2,7 @@ import { Button, Flex, Title } from '@mantine/core';
 import { useCallback, useContext, useEffect, useState } from 'react';
 
 import { SocketContext } from '@/app/SocketProvider';
-import { SocketEvents } from '@/socket/SocketEvents';
+import { CustomRoomEvent } from '@/socket/SocketEvent';
 import { useRouter } from 'next/navigation';
 
 export default function RoomList() {
@@ -13,7 +13,7 @@ export default function RoomList() {
   const listRooms = useCallback(() => {
     if (socket) {
       socket.emit(
-        SocketEvents.ListRooms,
+        CustomRoomEvent.ListRooms,
         {},
         (response: { rooms: string[] }) => {
           console.log(response);
@@ -27,7 +27,7 @@ export default function RoomList() {
 
   const roomButtonHandler = (roomName: string) => {
     socket?.emit(
-      SocketEvents.JoinRoom,
+      CustomRoomEvent.JoinRoom,
       {
         roomName,
       },
